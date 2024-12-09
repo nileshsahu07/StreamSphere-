@@ -7,8 +7,14 @@ const app = new express();
 
 app.use(
     cors({
-        origin: process.env.CORS_ORIGIN,
-        credentials: true,
+        origin: function (origin, callback) {
+            if (origin) {
+                callback(null, origin); // Allow the origin dynamically
+            } else {
+                callback(null, '*'); // Allow non-browser tools like Postman
+            }
+        },
+        credentials: true, // Allow cookies and credentials
     })
 );
 
